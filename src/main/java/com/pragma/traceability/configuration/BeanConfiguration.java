@@ -2,6 +2,7 @@ package com.pragma.traceability.configuration;
 
 import com.pragma.traceability.adapters.driven.mongodb.adapter.LogsOrderMongodbAdapter;
 import com.pragma.traceability.adapters.driven.mongodb.mapper.ILogsOrderEntityMapper;
+import com.pragma.traceability.adapters.driven.mongodb.mapper.IOrderStatusEntityMapper;
 import com.pragma.traceability.adapters.driven.mongodb.repository.LogsOrderRepository;
 import com.pragma.traceability.domain.api.IAuthenticationUserInfoServicePort;
 import com.pragma.traceability.domain.api.ILogsServicePort;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 public class BeanConfiguration {
     private final LogsOrderRepository logsOrderRepository;
     private final ILogsOrderEntityMapper logsOrderEntityMapper;
+    private final IOrderStatusEntityMapper orderStatusEntityMapper;
 
     // LogsOrderUseCase
 
@@ -27,6 +29,6 @@ public class BeanConfiguration {
 
     @Bean
     public ILogsPersistencePort logsPersistencePort(){
-        return new LogsOrderMongodbAdapter(logsOrderRepository, logsOrderEntityMapper);
+        return new LogsOrderMongodbAdapter(logsOrderRepository, logsOrderEntityMapper, orderStatusEntityMapper);
     }
 }

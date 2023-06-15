@@ -2,6 +2,7 @@ package com.pragma.traceability.adapters.driving.http.controller;
 
 import com.pragma.traceability.adapters.driving.http.dto.request.LogsOrderRequestDto;
 import com.pragma.traceability.adapters.driving.http.dto.response.LogsOrderResponseDto;
+import com.pragma.traceability.adapters.driving.http.dto.response.TimeOrdersEmployeeResponseDto;
 import com.pragma.traceability.adapters.driving.http.handler.ILogsHandler;
 import com.pragma.traceability.configuration.Constants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,4 +57,31 @@ public class TraceabilityController {
     public ResponseEntity<List<LogsOrderResponseDto>> getLogsOrder(){
         return ResponseEntity.ok(logsHandler.getLogsOrderByClient());
     };
+
+    @Operation(summary = "Order time",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Successful time",
+                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Map"))),
+                    @ApiResponse(responseCode = "409", description = "Error time",
+                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
+    @PreAuthorize("hasAuthority('PROVIDER_ROLE')")
+    @GetMapping("logs/time/{idOrder}")
+    public ResponseEntity<Long> getTimeOrder(@PathVariable("idOrder") Long idOrder){
+        return ResponseEntity.ok(logsHandler.getTimeOrder(idOrder));
+    }
+
+    @Operation(summary = "Times employees ranked",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Successful Ranked",
+                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Map"))),
+                    @ApiResponse(responseCode = "409", description = "Error Ranked",
+                            content = @Content(mediaType = "application/json", schema = @Schema(ref = "#/components/schemas/Error")))})
+    @PreAuthorize("hasAuthority('PROVIDER_ROLE')")
+    @GetMapping("logs/time/employee/ranked/{idEmployee}")
+    public ResponseEntity<List<TimeOrdersEmployeeResponseDto>> getTimeEmployeeRanked(@PathVariable("idEmployee") Long idEmployee){
+        return ResponseEntity.ok(logsHandler.getTimeEmployeeRanked(idEmployee));
+    }
+
+
+
 }
