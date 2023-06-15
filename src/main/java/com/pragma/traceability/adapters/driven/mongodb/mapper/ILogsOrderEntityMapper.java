@@ -16,4 +16,6 @@ public interface ILogsOrderEntityMapper {
     LogsOrderResponseDto toLogsOrderResponseDto(LogsOrderDocument logsOrderDocument);
 
     List<LogsOrderResponseDto> toLogsOrderResponseDtos(List<LogsOrderDocument> logsOrderDocuments);
+
+    LogsOrder toLogsOrder(LogsOrderDocument logsOrderDocument);
 }

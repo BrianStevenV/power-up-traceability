@@ -38,6 +38,8 @@ public class MainSecurity {
                 .authorizeRequests(requests -> requests
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/health", "/traceability/logs/").permitAll()
                         .requestMatchers(HttpMethod.GET, "/traceability/logs/record/").hasAuthority("CLIENT_ROLE")
+                        .requestMatchers(HttpMethod.GET, "/traceability/logs/time/{idOrder}").hasAuthority("PROVIDER_ROLE")
+                        .requestMatchers(HttpMethod.GET, "/traceability/logs/time/employee/ranked/{idEmployee}").hasAuthority("PROVIDER_ROLE")
                         .anyRequest().authenticated()
                 )
                 .formLogin().disable()
